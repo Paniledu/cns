@@ -1,0 +1,31 @@
+import java.util.*;
+public class Hill2{
+  static int[][]K=new int[2][2],I=new int[2][2];
+  public static void main(String[]a){
+    Scanner s=new Scanner(System.in);
+    System.out.println("Enter 2x2 key matrix:");
+    for(int i=0;i<2;i++)for(int j=0;j<2;j++)K[i][j]=s.nextInt();
+    if(!inv()){System.out.println("Not invertible");return;}
+    System.out.print("Enter plaintext (A-Z): ");
+    String p=s.next().toUpperCase();if(p.length()%2!=0)p+="X";
+    System.out.println("Matrix: ["+K[0][0]+" "+K[0][1]+"] ["+K[1][0]+" "+K[1][1]+"]");
+    System.out.println("Plain : "+p);
+    String e=f(p,K),d=f(e,I);
+    System.out.println("Enc   : "+e+"\nDec   : "+d);
+  }
+  static String f(String t,int[][]M){
+    StringBuilder r=new StringBuilder();
+    for(int i=0;i<t.length();i+=2){
+      int a=t.charAt(i)-'A',b=t.charAt(i+1)-'A';
+      r.append((char)((M[0][0]*a+M[0][1]*b)%26+'A'));
+      r.append((char)((M[1][0]*a+M[1][1]*b)%26+'A'));
+    }return r.toString();
+  }
+  static boolean inv(){
+    int a=K[0][0],b=K[0][1],c=K[1][0],d=K[1][1],det=(a*d-b*c)%26;
+    if(det<0)det+=26;int di=mi(det,26);if(di==-1)return false;
+    I[0][0]=d*di%26;I[0][1]=(26-b)*di%26;I[1][0]=(26-c)*di%26;I[1][1]=a*di%26;
+    return true;
+  }
+  static int mi(int a,int m){for(int x=1;x<m;x++)if(a*x%m==1)return x;return-1;}
+}
