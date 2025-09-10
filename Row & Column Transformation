@@ -1,0 +1,24 @@
+import java.util.*;
+public class RowCol{
+  static String enc(String p,int r,int c){
+    char[][]m=new char[r][c];int k=0;StringBuilder ct=new StringBuilder();
+    for(int i=0;i<r;i++)for(int j=0;j<c;j++)m[i][j]=k<p.length()?p.charAt(k++):'X';
+    for(int j=0;j<c;j++)for(int i=0;i<r;i++)ct.append(m[i][j]);
+    return ct.toString();
+  }
+  static String dec(String ct,int r,int c){
+    char[][]m=new char[r][c];int k=0;StringBuilder pt=new StringBuilder();
+    for(int j=0;j<c;j++)for(int i=0;i<r;i++)m[i][j]=ct.charAt(k++);
+    for(int i=0;i<r;i++)for(int j=0;j<c;j++)pt.append(m[i][j]);
+    return pt.toString();
+  }
+  public static void main(String[]a){
+    Scanner s=new Scanner(System.in);
+    System.out.print("Plaintext: ");String p=s.nextLine();
+    System.out.print("Rows: ");int r=s.nextInt();
+    System.out.print("Cols: ");int c=s.nextInt();
+    if(r*c<p.length()){System.out.println("Error: rows*cols < length");return;}
+    String e=enc(p,r,c),d=dec(e,r,c);
+    System.out.println("Enc: "+e+"\nDec: "+d);
+  }
+}
